@@ -19,7 +19,8 @@ import json
 # Read special User Accounts (config_users.json)
 
 # 1) Handles to auto include (Eg. MLSB Workshop, ml4proteins)
-# 2) Handles that only need to pass the bio_RegEx (Eg. Professors who work in ML for StructBio)
+# 2) Handles that only need to pass the bio_RegEx (Eg. Professors/Researchers who work in ML for StructBio. 
+#    ... we just need to check the BioRegEx, because it might already have relavancy to ML)
 # 3) Exclude users (Whoe post unrelated content but passes our RegEx)
 
 with open('/home/ruh/www/mlsb_feed_hosted/server/config_users.json', 'r') as config_file:
