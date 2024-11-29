@@ -1,7 +1,6 @@
 .DS_Store
 .idea
 *.iml
-.env
 # *.db
 
 # Byte-compiled / optimized / DLL files
@@ -127,7 +126,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/

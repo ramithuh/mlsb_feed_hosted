@@ -16,6 +16,12 @@ EXCLUDED_PATTERN_2 = re.compile(r'(?i)(whey\s+(?:protein|powder)|protein\s+powde
 
 import json
 
+# Read special User Accounts (config_users.json)
+
+# 1) Handles to auto include (Eg. MLSB Workshop, ml4proteins)
+# 2) Handles that only need to pass the bio_RegEx (Eg. Professors who work in ML for StructBio)
+# 3) Exclude users (Whoe post unrelated content but passes our RegEx)
+
 with open('/home/ruh/www/mlsb_feed_hosted/server/config_users.json', 'r') as config_file:
     config = json.load(config_file)
 
@@ -35,17 +41,17 @@ def is_relevant_post(text: str, author_did: str) -> bool:
     Returns:
         bool: True if the post is relevant, False otherwise.
     """
-    # Auto-included users: Include all posts regardless of content
+    # Exclude these users
     if(author_did in EXCLUDE_DIDS):
         return False
 
+    # Auto-Include users
     if author_did in AUTO_INCLUDE_DIDS:
         return True
 
+    # Exclude posts containing inappropriate terms
     if EXCLUDED_PATTERN_2.search(text):
         return False
-
-    # Exclude posts containing inappropriate terms
     if EXCLUDED_PATTERN.search(text):
         return False
 
@@ -56,7 +62,6 @@ def is_relevant_post(text: str, author_did: str) -> bool:
 
     # General users: Must pass both ML and BIO checks
     has_ml = bool(ML_PATTERN.search(text))
-
     return has_ml and has_bio
 
 
