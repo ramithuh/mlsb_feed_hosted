@@ -1,7 +1,9 @@
 {
     "auto_include_dids": [
         "did:plc:2zl4qginefftpkv62v4zufjy",
-        "did:plc:gxmhkrvap7jm5drhu7uymqvs"
+        "did:plc:gxmhkrvap7jm5drhu7uymqvs",
+        "did:plc:7a3sxg2bz7desxtex77gwktk",
+        "did:plc:374ts57mi3vb3ut2quqz6kkq"
     ],
     "bio_only_dids": [
         "did:plc:2gkt6aahngf7a7yzi2cq2uli",
