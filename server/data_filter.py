@@ -6,7 +6,7 @@ import re
 from server.logger import logger
 from server.database import db, Post
 
-ML_PATTERN = re.compile(r'(?i)(?:\b(?:machine|deep|geometric\s+deep)\s+learning\b|bioML|\b(?:neural\s+network(?:s)?|graph\s+neural\s+network(?:s)?|(?:protein\s+)?language\s+model(?:s)?|(?:ESM)-?\d*|(?:prot(?:BERT|einMPNN)|openFold|helixFold)|(?:GNINA|VINA)|flow-matching|boltz-\d*|diffusion\s+model(?:s)?|ColabFold|(?:pLM)s?|transformer(?:s)?|(?:LIGO|RFdiffusion|RoseTTAFold)|alphafold|alphafold[1-3]|AF[2-3]|GNN|VAE|ESMFold|OmegaFold|ProstQA|multimer)(?:\s*-?\s*(?:predicted|prediction|predictions))?\b|\bexplainable\b|\battention mechanism\b|\bfoundation model\b|\bfine-tuning\b|\bembedding\b|artificial intelligence|self-supervised|context-aware|context aware|zero-shot|pretraining|auxiliary tasks|latent space|equivariant|invariant|tensor-based|flow matching|optimal transport|featurisation|reinforcement learning|diffusion|active learning|masked modeling|inverse folding|representation learning|contrastive learning|linear probe|\bMCMC\b|generative model|\bIsomorphic Labs\b|\bRecursion Pharmaceuticals?\b|\bExscientia\b|\bAtomwise\b|\bInsilico Medicine\b|\bIktos\b|NeurIPS|ICML|predicting structure|prediction model|predictive modeling)')
+ML_PATTERN = re.compile(r'(?i)(?:\b(?:machine|deep|geometric\s+deep)[\s-]+learning\b|bioML|\b(?:neural\s+network(?:s)?|graph\s+neural\s+network(?:s)?|(?:protein\s+)?language\s+model(?:s)?|(?:ESM)-?\d*|(?:prot(?:BERT|einMPNN)|openFold|helixFold)|(?:GNINA|VINA)|flow-matching|boltz-\d*|diffusion\s+model(?:s)?|ColabFold|(?:pLM)s?|transformer(?:s)?|(?:LIGO|RFdiffusion|RoseTTAFold)|alphafold|alphafold[1-3]|AF[2-3]|GNN|VAE|ESMFold|OmegaFold|ProstQA|multimer)(?:\s*-?\s*(?:predicted|prediction|predictions))?\b|\bexplainable\b|\battention mechanism\b|\bfoundation model\b|\bfine-tuning\b|\bembedding\b|artificial intelligence|self-supervised|context-aware|context aware|zero-shot|pretraining|auxiliary tasks|latent space|equivariant|invariant|tensor-based|flow matching|optimal transport|featurisation|reinforcement learning|diffusion|active learning|masked modeling|inverse folding|representation learning|contrastive learning|linear probe|\bMCMC\b|generative model|\bIsomorphic Labs\b|\bRecursion Pharmaceuticals?\b|\bExscientia\b|\bAtomwise\b|\bInsilico Medicine\b|\bIktos\b|NeurIPS|ICML|predicting structure|prediction model|predictive modeling)')
 RELEVANT = re.compile(r'(?i)CASP16')
 BIO_PATTERN = re.compile(r'(?i)(?:protein(s)?|multimer|enzyme(s)?|molecular biology|structural biology|\bpdb\b|peptide(s)?|amino acid(s)?|protein folding|molecular dynamic(s)?|molecular representation(s)?|ligand(s)? dock(ing|ed)|\bdock(ing|ed)?\b|\bmolecule representation\b|\bmolecule generation\b|\bNMR\b|cryoem|cryo-em|cryo-et|conformation(al|s)?|\bbinding site(s)?\b|posebuster(s)?|\bkinase(s)?\b|\bmicrobio(logy|logical)?\b|\bBioML\b|genomic context(s)?|active site(s)?|enzyme design(s|ing)?|structural motif(s)?|protein sequence(s)?|structural proteome(s|ics)?|protein engineer(ing|ed)|protein.*?function(s|al)?|small molecule|protein.*?structure(s|al)?|\bPyMOL\b|\bChimeraX\b|\bVMD\b|\bstructural alignment(s)?\b|\bprotein-protein interaction(s)?\b|\bprotein complex(es)?\b|MMseqs|\bMSA\b|drug discovery|drug design|virtual screening|\bRNA\b|RNA structure|base pairs|pseudoknots|G-quadruplex|electrostatic potential|atomic model|biomolecule|macromolecule|\bPPI(s)?\b|crystallography|coevolution|phylogeny|\bside chain\b|backbone structure|backbone prediction|residue|therapeutics|biotherapeutics|protein design|binding affinity|binding pocket|protein surface|molecular surface|pharmacophore|TM[-\s]?score|[pl]?lddt|DrugDiscovery|DrugDesign|\bbinding\b|CASP)')
 
@@ -27,7 +27,7 @@ with open('/home/ruh/www/mlsb_feed_hosted/server/config_users.json', 'r') as con
     config = json.load(config_file)
 
 AUTO_INCLUDE_DIDS = set(config.get('auto_include_dids', []))
-BIO_ONLY_DIDS = set(config.get('bio_only_dids', []))
+BIOML_USER_DIDS = set(config.get('bioml_only_dids', []))
 
 EXCLUDE_DIDS = set(config.get('exclude_dids', []))
 
@@ -55,18 +55,14 @@ def is_relevant_post(text: str, author_did: str) -> bool:
         return False
     if EXCLUDED_PATTERN.search(text):
         return False
-
-    # BIO-Only users: Must pass only the BIO check
-    has_bio = bool(BIO_PATTERN.search(text))
-    if author_did in BIO_ONLY_DIDS:
-        return has_bio
-
     
     # General users: Must pass both ML and BIO checks or if has_relevant, must pass one of them
     has_relevant = bool(RELEVANT.search(text))
     has_ml = bool(ML_PATTERN.search(text))
+    has_bio = bool(BIO_PATTERN.search(text))
 
-    if(has_relevant):
+    # BIOML-users: Must pass either check
+    if(has_relevant or author_did in BIOML_USER_DIDS):
         return has_ml or has_bio
     
     return has_ml and has_bio
