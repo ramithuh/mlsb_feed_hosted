@@ -13,6 +13,7 @@
     ],
     "exclude_dids":[
         "did:plc:an6wdtillwv2gped65n4b4aq",
-        "did:plc:gbwll4eagmv7qbt5eiyzreec"
+        "did:plc:gbwll4eagmv7qbt5eiyzreec",
+        "did:plc:og2kvr2eqd6so7ixfgjagwxc"
     ]
 }
