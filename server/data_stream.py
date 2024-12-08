@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+import time
 from atproto import AtUri, CAR, firehose_models, FirehoseSubscribeReposClient, models, parse_subscribe_repos_message
 from atproto.exceptions import FirehoseError
 
@@ -51,9 +52,11 @@ def run(name, operations_callback, stream_stop_event=None):
         try:
             _run(name, operations_callback, stream_stop_event)
         except FirehoseError as e:
-            # here we can handle different errors to reconnect to firehose
-            raise e
-
+            logger.error(f"FirehoseError encountered: {e}. Reconnecting in 5 seconds...")
+            time.sleep(5)  # Wait before attempting to reconnect
+        except Exception as e:
+            logger.error(f"Unhandled exception in data_stream.run: {e}. Reconnecting in 5 seconds...")
+            time.sleep(5)  # Wait before attempting to reconnect
 
 def _run(name, operations_callback, stream_stop_event=None):
     state = SubscriptionState.get_or_none(SubscriptionState.service == name)

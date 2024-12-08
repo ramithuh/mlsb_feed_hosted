@@ -1,4 +1,6 @@
 import sys
+import csv
+from datetime import datetime
 import signal
 import threading
 
@@ -84,6 +86,14 @@ def get_feed_skeleton():
         cursor = request.args.get('cursor', default=None, type=str)
         limit = request.args.get('limit', default=20, type=int)
         body = algo(cursor, limit)
+
+        try:
+            with open("/home/ruh/www/mlsb_feed_hosted/refresh_logs.csv", mode='a', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow([datetime.now().isoformat(), limit])
+        except IOError as e:
+            print(f"Failed to write to log file: {e}")
+
     except ValueError:
         return 'Malformed cursor', 400
 
