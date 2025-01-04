@@ -7,6 +7,9 @@ from server.database import Post
 uri = config.WHATS_ALF_URI
 CURSOR_EOF = 'eof'
 
+# Define your sticky post CID
+sticky_cid = "bafyreib2yf2sxeas2aujifd74qwurmxbob6tblbh77ygbxsujykj35edyy"
+sitcky_uri = "at://did:plc:a33wx75tk3vfmbqb6brpbxo4/app.bsky.feed.post/3levcym2t2m2x"
 
 def handler(cursor: Optional[str], limit: int) -> dict:
     posts = Post.select().order_by(Post.cid.desc()).order_by(Post.indexed_at.desc()).limit(limit)
@@ -25,7 +28,7 @@ def handler(cursor: Optional[str], limit: int) -> dict:
         indexed_at = datetime.fromtimestamp(int(indexed_at) / 1000)
         posts = posts.where(((Post.indexed_at == indexed_at) & (Post.cid < cid)) | (Post.indexed_at < indexed_at))
 
-    feed = [{'post': post.uri} for post in posts]
+    feed = [{'post': sitcky_uri}] + [{'post': post.uri} for post in posts]
 
     cursor = CURSOR_EOF
     last_post = posts[-1] if posts else None
