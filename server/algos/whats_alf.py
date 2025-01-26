@@ -7,9 +7,8 @@ from server.database import Post
 uri = config.WHATS_ALF_URI
 CURSOR_EOF = 'eof'
 
-# Define your sticky post CID
-sticky_cid = "bafyreib2yf2sxeas2aujifd74qwurmxbob6tblbh77ygbxsujykj35edyy"
-sitcky_uri = "at://did:plc:a33wx75tk3vfmbqb6brpbxo4/app.bsky.feed.post/3levcym2t2m2x"
+# Define your sticky post uri
+sitcky_uri = "at://did:plc:a33wx75tk3vfmbqb6brpbxo4/app.bsky.feed.post/3leve7zx2zk2r"
 
 def handler(cursor: Optional[str], limit: int) -> dict:
     posts = Post.select().order_by(Post.cid.desc()).order_by(Post.indexed_at.desc()).limit(limit)
