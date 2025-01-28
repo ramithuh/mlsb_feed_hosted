@@ -27,7 +27,7 @@ DISPLAY_NAME: str = 'ML in Structural Biology'
 
 # (Optional) A description of your feed
 # Ex: Top trending content from the whole network
-DESCRIPTION: str = 'Latest posts on Machine Learning in Structural Biology (Reverse chronologically ordered).'
+DESCRIPTION: str = 'Latest posts on Machine Learning in Structural Biology, covering protein/RNA/DNA structure prediction, docking, molecular modeling, and small molecule design. \n\n 🔎 search posts in this feed : https://mlsb.papers.blue \n  💡 edit the algorithm: https://github.com/ramithuh/MLSB_feed_hosted'
 
 # (Optional) The path to an image to be used as your feed's avatar
 # Ex: ./path/to/avatar.jpeg
