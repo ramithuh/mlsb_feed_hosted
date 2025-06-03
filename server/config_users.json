@@ -2,7 +2,8 @@
     "auto_include_dids": [
         "did:plc:2zl4qginefftpkv62v4zufjy",
         "did:plc:gxmhkrvap7jm5drhu7uymqvs",
-        "did:plc:374ts57mi3vb3ut2quqz6kkq"
+        "did:plc:374ts57mi3vb3ut2quqz6kkq",
+        "did:plc:lxxe4qnoso2xog4bj43ykwor"
     ],
     "bioml_only_dids": [
         "did:plc:2gkt6aahngf7a7yzi2cq2uli",
@@ -44,7 +45,13 @@
         "did:plc:6mykhwkym3og5vguu7kivh5g",
         "did:plc:jjibeczoopaqeiwxvivcajuq",
         "did:plc:mhqnbglrgmwiuz3kgexbi7uf",
-        "did:plc:lmij5gw5sejsikcsr67lnutr"
+        "did:plc:lmij5gw5sejsikcsr67lnutr",
+        "did:plc:3aptauacrkvwgfcwxfmkmgl7",
+        "did:plc:bx2nwkcxn3a5ve7ayzpefxrr",
+        "did:plc:5ohdf3nmtcfdwfmataiy6z2n",
+        "did:plc:vg2cbnij2ykcbtr6lyqfvqbw",
+        "did:plc:3kqzvlzxiyosob2p67etop4k",
+        "did:plc:symxk23ddhd4ol7gcqxsthlp"
         
         
     ]
